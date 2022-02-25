@@ -25,4 +25,4 @@ yarn-error.log*
 package-lock.js
 
 # Temp dev GUI
-src/assets/gui/*
+src/assets/gui/

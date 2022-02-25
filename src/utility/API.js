@@ -34,7 +34,17 @@ axios.defaults.baseURL = url()
 //Item Fetch Requests
 
 export const getItem = (...args) => new Promise((resolve, reject) => {
-  return axios.get(`/items/:id`, {...args})
+  return axios.get(`/api/items/${args[0]}`, {...args})
+  .then((res) => resolve(res))
+  .catch((err) => {
+    const { response } = err
+    errorNotice(response)
+    reject(response)
+  })
+})
+
+export const getRecipeType = (...args) => new Promise((resolve, reject) => {
+  return axios.get(`/api/recipe_types/${args[0]}`, {...args})
   .then((res) => resolve(res))
   .catch((err) => {
     const { response } = err
@@ -45,58 +55,18 @@ export const getItem = (...args) => new Promise((resolve, reject) => {
 
 //Recipe Fetch Requests
 
-export const getRecipes = (...args) => new Promise((resolve, reject) => {
-  return axios.get(`/api/recipes`, {...args})
-  .then((res) => resolve(res))
-  .catch((err) => {
-    const { response } = err
-    errorNotice(response)
-    reject(response)
-  })
-})
-
-export const getHandlerRecipesById = (id, page, limit, ...args) => new Promise((resolve, reject) => {
-  return axios.get(`/api/recipes/${id}?searchType=handler&page=${page}&perPage=${limit}`, {...args})
-  .then((res) => resolve(res))
-  .catch((err) => {
-    const { response } = err
-    errorNotice(response)
-    reject(response)
-  })
-})
-
-export const getItemRecipesByID = (id, page, limit, handler, ...args) => new Promise((resolve, reject) => {
-  return axios.get(`/api/recipes/${id}?searchType=item&page=${page}&perPage=${limit}&handler=${handler}`, {...args})
-  .then((res) => resolve(res))
-  .catch((err) => {
-    const { response } = err
-    errorNotice(response)
-    reject(response)
-  })
-})
-
-export const getHandlerInfo = (id, ...args) => new Promise((resolve, reject) => {
-  return axios.get(`/api/recipe_types/${id}`, {...args})
-  .then((res) => resolve(res))
-  .catch((err) => {
-    const { response } = err
-    errorNotice(response)
-    reject(response)
-  })
-})
-
-export const getItemInfo = (id, ...args) => new Promise((resolve, reject) => {
-  return axios.get(`/api/items/${id}`, {...args})
-  .then((res) => resolve(res))
-  .catch((err) => {
-    const { response } = err
-    errorNotice(response)
-    reject(response)
-  })
-})
-
 export const getAllRecipeTypes = (...args) => new Promise((resolve, reject) => {
-  return axios.get(`/api/recipes`, {...args})
+  return axios.get(`/api/recipe_types`, {...args})
+  .then((res) => resolve(res))
+  .catch((err) => {
+    const { response } = err
+    errorNotice(response)
+    reject(response)
+  })
+})
+
+export const getRecipesInHandler = (id, offset = 0) => new Promise((resolve, reject) => {
+  return axios.get(`/api/recipes/recipe_types/${id}`, {params: {offset: offset}})
   .then((res) => resolve(res))
   .catch((err) => {
     const { response } = err
