@@ -2,7 +2,7 @@ import { lazy } from 'react'
 
 const RecipesRoutes = [
   {
-    path: '/recipes/handlers/:id',
+    path: '/recipes/recipe_types/:id',
     className: 'recipes',
     exact: true,
     component: lazy(() => import('../../views/recipes/handlers')),

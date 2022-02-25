@@ -1,7 +1,12 @@
 import StyledBox from '@components/StyledBox'
+import { Pagination, PaginationItem } from '@mui/material'
 import { Link } from 'react-router-dom'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import PaginationText from './PaginationText';
 
-const TopBanner = ({handlers, searchType}) => {
+const TopBanner = ({recipeType}) => {
 
   return (
     <div style={{display: 'flex', justifyContent: "center", paddingBottom: 10, paddingTop: 10}}>
@@ -14,15 +19,7 @@ const TopBanner = ({handlers, searchType}) => {
           justifyContent:"center", 
           alignItems: "center"
         }}>
-          {handlers.map(handler => {
-            return (
-              <Link to={`/recipes/handler/${handler.id}`}>
-                <span style={{margin: 20}}>
-                    {handler.name}
-                </span>
-              </Link>
-            )
-          })}
+          {recipeType.name}
       </StyledBox>
     </div>
   )
