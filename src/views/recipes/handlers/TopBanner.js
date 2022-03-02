@@ -1,10 +1,4 @@
 import StyledBox from '@components/StyledBox'
-import { Pagination, PaginationItem } from '@mui/material'
-import { Link } from 'react-router-dom'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
-import PaginationText from './PaginationText';
 
 const TopBanner = ({recipeType}) => {
 

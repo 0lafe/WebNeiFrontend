@@ -1,29 +1,53 @@
 import React, { useEffect, useState, Fragment } from "react"
 import { useParams } from "react-router-dom"
-import { getRecipesInHandler, getRecipeType } from "@api"
+import { getRecipesByItem, getRecipesInHandler, getRecipeType } from "@api"
 import TopBanner from './TopBanner'
 import PaginationBar from './PaginationBar'
 import HandlerRecipe from './HandlerRecipe'
 
 const Handlers = ({ extra }) => {
-    const [recipes, setrecipes] = useState(null)
+    const [recipes, setRecipes] = useState(null)
     const [recipeType, setRecipeType] = useState(null)
+    const [recipeTypeList, setRecipeTypeList] = useState(null)
     const [offset, setoffset] = useState(0)
+
     const params = useParams()
 
     useEffect(() => {
-        getRecipesInHandler(params.id).then(reply => {
-            setrecipes(reply.data.recipes)
-        })
-        getRecipeType(params.id).then(reply => {
-            setRecipeType(reply.data.recipe_type)
-        })
+        switch (extra) {
+            case "items":
+                console.log("I")
+                break
+            case "recipes":
+                getRecipesInHandler(params.recipe_type_id).then(reply => {
+                    setRecipes(reply.data.recipes)
+                })
+                getRecipeType(params.recipe_type_id).then(reply => {
+                    setRecipeType(reply.data.recipe_type)
+                })
+                break
+            case "both":
+                getRecipesByItem(params.recipe_type_id, params.item_id).then(reply => {
+                    setRecipes(reply.data.recipes)
+                })
+
+                break
+        }
     }, [])
 
     useEffect(() => {
-        getRecipesInHandler(params.id, offset).then(reply => {
-            setrecipes(reply.data.recipes)
-        })
+        switch (extra) {
+            case "items":
+                console.log("I")
+                break
+            case "recipes":
+                getRecipesInHandler(params.recipe_type_id, offset).then(reply => {
+                    setRecipes(reply.data.recipes)
+                })
+                break
+            case "both":
+                break
+        }
     }, [offset])
 
     return (
