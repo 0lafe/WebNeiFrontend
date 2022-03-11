@@ -74,3 +74,23 @@ export const getRecipesInHandler = (id, offset = 0) => new Promise((resolve, rej
     reject(response)
   })
 })
+
+export const getRecipesByItem = (recipe_type_id, item_id, offset = 0) => new Promise((resolve, reject) => {
+  return axios.get(`/api/recipes/items/${item_id}/recipe_types/${recipe_type_id}`, {params: {offset: offset}})
+  .then((res) => resolve(res))
+  .catch((err) => {
+    const { response } = err
+    errorNotice(response)
+    reject(response)
+  })
+})
+
+export const getItemRecipeData = (item_id) => new Promise((resolve, reject) => {
+  return axios.get(`/api/recipes/items/${item_id}`)
+  .then((res) => resolve(res))
+  .catch((err) => {
+    const { response } = err
+    errorNotice(response)
+    reject(response)
+  })
+})

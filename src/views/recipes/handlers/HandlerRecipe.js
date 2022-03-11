@@ -1,9 +1,8 @@
 import React from "react"
-import { Link } from "react-router-dom"
-import DefaultItemIcon from "@components/DefaultItemIcon"
+import RecipeItemIcon from "../icons"
 
-
-const HandlerRecipe = ({recipe, url, scale}) => {
+const HandlerRecipe = ({recipe, url, scale, setItem, setRecipeType}) => {
+  
   return (
     <div style={{display: 'flex', justifyContent:"center"}}>
       {!url ? 
@@ -13,28 +12,24 @@ const HandlerRecipe = ({recipe, url, scale}) => {
           <img src={require("@src/assets/gui/" + url)} width={1000}/>
             {recipe.inputs.map((input, index) => {
               return (
-                <Link to={`/recipes/items/${input.item.id}`} key={`${recipe.id}-${input.id}:${index}`}>
-                  <DefaultItemIcon 
-                  item={input.item} 
-                  quantity={input.quantity}
-                  x={input.relx} 
-                  y={input.rely} 
-                  scale={scale}
-                  />
-                </Link>
+                <RecipeItemIcon 
+                key={`${recipe.id}-${input.id}:${index}`}
+                item={input}
+                scale={scale}
+                setItem={setItem}
+                setRecipeType={setRecipeType}
+                />
               )
             })}
             {recipe.outputs.map((output, index) => {
               return (
-                <Link to={`/recipes/items/${output.item.id}`} key={`${recipe.id}-${output.id}:${index}`}>
-                  <DefaultItemIcon 
-                  item={output.item} 
-                  quantity={output.quantity}
-                  x={output.relx} 
-                  y={output.rely} 
-                  scale={scale}
-                  />
-                </Link>
+                <RecipeItemIcon 
+                key={`${recipe.id}-${output.id}:${index}`}
+                item={output}
+                scale={scale}
+                setItem={setItem}
+                setRecipeType={setRecipeType}
+                />
               )
             })
 
