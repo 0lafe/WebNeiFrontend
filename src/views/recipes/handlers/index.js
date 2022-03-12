@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from "react"
-import { useParams } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 import { getAllRecipeTypes, getItemRecipeData, getRecipesByItem, getRecipesInHandler, getRecipeType } from "@api"
 import TopBanner from './TopBanner'
 import PaginationBar from './PaginationBar'
@@ -7,6 +7,7 @@ import HandlerRecipe from './HandlerRecipe'
 
 const Handlers = ({ extra }) => {
 	const params = useParams()
+  const history = useHistory()
 	const [recipes, setRecipes] = useState(null)
 	const [recipeType, setRecipeType] = useState(null)
 	const [recipeTypeList, setRecipeTypeList] = useState(null)
@@ -47,12 +48,47 @@ const Handlers = ({ extra }) => {
       getRecipesByItem(params.recipe_type_id, params.item_id, offset).then(reply => {
         setRecipes(reply.data.recipes)
       })
-  }}, [offset])
+    }
+  }, [offset])
+
+  const handleItemChange = (event) => {
+    event.preventDefault()
+		getItemRecipeData(event.currentTarget.id).then(itemReply => {
+			if (itemReply.data.item.has_inputs) {
+				setItem(itemReply.data.item.id)
+        getRecipesByItem(itemReply.data.item.input_handlers[0].id, itemReply.data.item.id).then(recipeReply => {
+          setRecipes(recipeReply.data.recipes)
+          setRecipeType(itemReply.data.item.input_handlers[0])
+          setRecipeTypeList(itemReply.data.item.input_handlers)
+        })
+				history.push(`/recipes/recipe_types/${itemReply.data.item.input_handlers[0].id}/items/${itemReply.data.item.id}`)
+			}
+		})
+  }
+
+  const handleRecipeTypeChange = (newRecipeType) => {
+    setRecipeType(newRecipeType)
+    if (extra === "recipes") {
+      getRecipesInHandler(newRecipeType.id).then(reply => {
+				setRecipes(reply.data.recipes)
+			})
+      history.push(`/recipes/recipe_types/${newRecipeType.id}`)
+    } else {
+      getRecipesByItem(newRecipeType.id, params.item_id).then(reply => {
+        setRecipes(reply.data.recipes)
+      })
+      history.push(`/recipes/recipe_types/${newRecipeType.id}/items/${item}`)
+    }
+  }
 
   return (
-    !recipes || !recipeType ? null :
+    !recipes || !recipeType || !recipeTypeList ? null :
     <Fragment>
-      <TopBanner recipeType={recipeType} recipeTypeList={recipeTypeList}/>
+      <TopBanner 
+      selectedRecipeType={recipeType} 
+      handleRecipeTypeChange={handleRecipeTypeChange}
+      recipeTypeList={recipeTypeList}
+      />
       <PaginationBar count={Math.ceil(recipeType.recipe_quantity/10)} onChange={(value) => setoffset((value - 1) * 10)}/>
       {recipes.map(recipe => {
         return (
@@ -62,7 +98,7 @@ const Handlers = ({ extra }) => {
           url={recipeType.gui_url} 
           scale={recipeType.scale}
           setItem={setItem}
-          setRecipeType={setRecipeType}
+          handleItemChange={handleItemChange}
           />
         )
       })}

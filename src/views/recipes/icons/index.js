@@ -1,9 +1,9 @@
-import React, { useState } 	from "react"
+import React from "react"
 import DefaultItemIcon from "@components/DefaultItemIcon"
 import { getItemRecipeData } from "@api"
 import { useHistory } from "react-router-dom"
 
-const RecipeItemIcon = ({ item, scale, setItem, setRecipeType }) => {
+const RecipeItemIcon = ({ item, scale, setItem, handleItemChange }) => {
   const history = useHistory()
 
 	const handleClick = (e) => {
@@ -11,13 +11,13 @@ const RecipeItemIcon = ({ item, scale, setItem, setRecipeType }) => {
 		getItemRecipeData(e.currentTarget.id).then(reply => {
 			if (reply.data.item.has_inputs) {
 				setItem(reply.data.item.id)
-        history.push(`/recipes/recipe_types/${reply.data.item.input_handlers[0].id}/items/${reply.data.item.id}`)
+				history.push(`/recipes/recipe_types/${reply.data.item.input_handlers[0].id}/items/${reply.data.item.id}`)
 			}
 		})
 	}
 
 	return (
-		<span onClick={handleClick} id={item.item.id}>
+		<span onClick={handleItemChange} id={item.item.id}>
 			{item.item.url
 			? null
 			: <DefaultItemIcon

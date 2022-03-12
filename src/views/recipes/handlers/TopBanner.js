@@ -1,6 +1,45 @@
 import StyledBox from '@components/StyledBox'
+import { Button } from '@mui/material'
 
-const TopBanner = ({recipeType}) => {
+const buttonStyle = {
+  marginLeft: 10,
+  marginRight: 10
+}
+
+const HandlerList = ({current, list, handleRecipeTypeChange}) => {
+
+  return (
+    <div style={{display: 'flex', justifyContent: "space-between", paddingBottom: 10, paddingTop: 10}}>
+    {list.map(type => {
+      if (type === current) {
+        return (
+          <Button
+          style={buttonStyle}
+          variant="outlined" 
+          disabled
+          key={type.id}
+          >
+            {type.name}
+          </Button>
+        )
+      } else {
+        return (
+          <Button 
+          style={buttonStyle}
+          key={type.id}
+          variant="outlined" 
+          onClick={() => {handleRecipeTypeChange(type)}}
+          >
+            {type.name}
+          </Button>
+        )
+      }
+    })}
+    </div>
+  )
+}
+
+const TopBanner = ({selectedRecipeType, recipeTypeList, handleRecipeTypeChange}) => {
 
   return (
     <div style={{display: 'flex', justifyContent: "center", paddingBottom: 10, paddingTop: 10}}>
@@ -13,7 +52,11 @@ const TopBanner = ({recipeType}) => {
           justifyContent:"center", 
           alignItems: "center"
         }}>
-          {recipeType.name}
+          <HandlerList 
+          current={selectedRecipeType}
+          handleRecipeTypeChange={handleRecipeTypeChange}
+          list={recipeTypeList} 
+          />
       </StyledBox>
     </div>
   )
