@@ -51,6 +51,21 @@ const Handlers = ({ extra }) => {
     }
   }, [offset])
 
+  const handleItemChange = (event) => {
+    event.preventDefault()
+		getItemRecipeData(event.currentTarget.id).then(itemReply => {
+			if (itemReply.data.item.has_inputs) {
+				setItem(itemReply.data.item.id)
+        getRecipesByItem(itemReply.data.item.input_handlers[0].id, itemReply.data.item.id).then(recipeReply => {
+          setRecipes(recipeReply.data.recipes)
+          setRecipeType(itemReply.data.item.input_handlers[0])
+          setRecipeTypeList(itemReply.data.item.input_handlers)
+        })
+				history.push(`/recipes/recipe_types/${itemReply.data.item.input_handlers[0].id}/items/${itemReply.data.item.id}`)
+			}
+		})
+  }
+
   const handleRecipeTypeChange = (newRecipeType) => {
     setRecipeType(newRecipeType)
     if (extra === "recipes") {
@@ -83,7 +98,7 @@ const Handlers = ({ extra }) => {
           url={recipeType.gui_url} 
           scale={recipeType.scale}
           setItem={setItem}
-          setRecipeType={setRecipeType}
+          handleItemChange={handleItemChange}
           />
         )
       })}

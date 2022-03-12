@@ -1,4 +1,10 @@
 import StyledBox from '@components/StyledBox'
+import { Button } from '@mui/material'
+
+const buttonStyle = {
+  marginLeft: 10,
+  marginRight: 10
+}
 
 const HandlerList = ({current, list, handleRecipeTypeChange}) => {
 
@@ -7,16 +13,25 @@ const HandlerList = ({current, list, handleRecipeTypeChange}) => {
     {list.map(type => {
       if (type === current) {
         return (
-          <span 
+          <Button
+          style={buttonStyle}
+          variant="outlined" 
+          disabled
           key={type.id}
-          style={{color: "red"}}
           >
             {type.name}
-          </span>
+          </Button>
         )
       } else {
         return (
-          <span key={type.name} onClick={() => {handleRecipeTypeChange(type)}}>{type.name}</span>
+          <Button 
+          style={buttonStyle}
+          key={type.id}
+          variant="outlined" 
+          onClick={() => {handleRecipeTypeChange(type)}}
+          >
+            {type.name}
+          </Button>
         )
       }
     })}
