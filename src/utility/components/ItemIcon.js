@@ -1,5 +1,6 @@
 import { Tooltip } from "@mui/material"
 import React from "react"
+import "@src/utility/test.css"
 
 const ItemIcon = ({ item, quantity, x, y }) => {
     const name = item.localized_name ? item.localized_name : item.unlocalized_name
@@ -12,7 +13,7 @@ const ItemIcon = ({ item, quantity, x, y }) => {
                 src={image} 
                 width={64}
                 height={64}/>
-                <span style={{fontSize: 40}}>{quantity > 1 ? quantity : null}</span>
+                <span className="mc-font" style={{ fontSize: 40, color: "#1976d2"}}>{quantity > 1 ? quantity : null}</span>
             </div>
         </Tooltip>
     )

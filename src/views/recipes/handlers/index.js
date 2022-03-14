@@ -4,6 +4,7 @@ import { getAllRecipeTypes, getItemRecipeData, getRecipesByItem, getRecipesInHan
 import TopBanner from './TopBanner'
 import PaginationBar from './PaginationBar'
 import HandlerRecipe from './HandlerRecipe'
+import NavBar from '@layouts/NavBar'
 
 const Handlers = ({ extra }) => {
 	const params = useParams()
@@ -13,6 +14,7 @@ const Handlers = ({ extra }) => {
 	const [recipeTypeList, setRecipeTypeList] = useState(null)
 	const [offset, setoffset] = useState(0)
 	const [item, setItem] = useState(extra === "recipes" ? null : params.item_id)
+  const [itemName, setItemName] = useState(null)
   
 	useEffect(() => {
 		if (extra === "recipes") {
@@ -30,6 +32,7 @@ const Handlers = ({ extra }) => {
         setRecipes(reply.data.recipes)
       })
       getItemRecipeData(item).then(reply => {
+        setItemName(reply.data.item.localized_name)
         reply.data.item.input_handlers.forEach(handler => {
           if (handler.id == params.recipe_type_id) {
             setRecipeType(handler)
@@ -56,6 +59,7 @@ const Handlers = ({ extra }) => {
 		getItemRecipeData(event.currentTarget.id).then(itemReply => {
 			if (itemReply.data.item.has_inputs) {
 				setItem(itemReply.data.item.id)
+        setItemName(itemReply.data.item.localized_name)
         getRecipesByItem(itemReply.data.item.input_handlers[0].id, itemReply.data.item.id).then(recipeReply => {
           setRecipes(recipeReply.data.recipes)
           setRecipeType(itemReply.data.item.input_handlers[0])
@@ -83,7 +87,8 @@ const Handlers = ({ extra }) => {
 
   return (
     !recipes || !recipeType || !recipeTypeList ? null :
-    <Fragment>
+    <>
+    <NavBar recipeType={recipeType} item={itemName}/>
       <TopBanner 
       selectedRecipeType={recipeType} 
       handleRecipeTypeChange={handleRecipeTypeChange}
@@ -101,7 +106,7 @@ const Handlers = ({ extra }) => {
           />
         )
       })}
-    </Fragment>
+    </>
   )
 }
 

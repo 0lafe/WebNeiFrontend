@@ -17,6 +17,10 @@ const machineStyle = {
   margin: "0.5rem"
 }
 
+const headerFonts = {
+  fontSize: "4rem"
+}
+
 const Home = () => {
   const [recipes, setRecipes] = useState([])
   const history = useHistory()
@@ -51,8 +55,8 @@ const Home = () => {
 
   return (
       <div>
-          <h1>Web Nei</h1>
-          <h2>There are a total of {recipes.length} machines supported!</h2>
+          <h1 className="mc-font" style={headerFonts}>Web Nei</h1>
+          <h2 className="mc-font" style={headerFonts}>There are a total of {recipes.length} machines supported!</h2>
           <div style={machineHolderStyle}>
             {tiles}
           </div>

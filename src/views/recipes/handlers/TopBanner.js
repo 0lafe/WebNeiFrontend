@@ -1,5 +1,5 @@
 import StyledBox from '@components/StyledBox'
-import { Button } from '@mui/material'
+import { Button, Tooltip } from '@mui/material'
 import RecipeTypeDefaultIcon from '@components/RecipeTypeDefaultIcon'
 import RecipeTypeIcon from '@components/RecipeTypeIcon'
 
@@ -9,32 +9,42 @@ const buttonStyle = {
 }
 
 const HandlerList = ({current, list, handleRecipeTypeChange}) => {
+  const position = list.indexOf(current)
 
   return (
     <div style={{display: 'flex', justifyContent: "space-between", paddingBottom: 10, paddingTop: 10}}>
-    {list.map(type => {
+    {list.map((type, index) => {
+      // console.log(type.name)
       if (type === current) {
         return (
-          <Button
-          style={buttonStyle}
-          variant="outlined" 
-          disabled
-          key={type.id}
-          >
-            {type.has_icon ? <RecipeTypeIcon type={type}/> : <RecipeTypeDefaultIcon type={type}/> }
-          </Button>
+          <Tooltip title={type.name} placement="top" key={type.id}>
+            <span>
+              <Button
+              style={buttonStyle}
+              variant="outlined" 
+              disabled
+              key={type.id}
+              >
+                {type.has_icon ? <RecipeTypeIcon type={type}/> : <RecipeTypeDefaultIcon type={type}/> }
+              </Button>
+            </span>
+          </Tooltip>
         )
       } else {
-        return (
-          <Button 
-          style={buttonStyle}
-          key={type.id}
-          variant="outlined" 
-          onClick={() => {handleRecipeTypeChange(type)}}
-          >
-            {type.has_icon ? <RecipeTypeIcon type={type}/> : <RecipeTypeDefaultIcon type={type}/> }
-          </Button>
-        )
+        if (Math.abs(position - index) <= 5) {
+          return (
+            <Tooltip title={type.name} placement="top" key={type.id}>
+              <Button 
+              style={buttonStyle}
+              key={type.id}
+              variant="outlined" 
+              onClick={() => {handleRecipeTypeChange(type)}}
+              >
+                {type.has_icon ? <RecipeTypeIcon type={type}/> : <RecipeTypeDefaultIcon type={type}/> }
+              </Button>
+            </Tooltip>
+          )
+        }
       }
     })}
     </div>
