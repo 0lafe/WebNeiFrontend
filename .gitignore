@@ -26,3 +26,4 @@ package-lock.js
 
 # Temp dev GUI
 src/assets/gui/
+src/assets/item_icons/
