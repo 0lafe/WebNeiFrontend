@@ -1,0 +1,10 @@
+.mc-font {
+    font-family: 'Minecraft', sans-serif;
+    font-size: 1rem;
+}
+
+.container {
+    border: 0.25rem solid black;
+    border-radius: 0.5rem;
+    margin: 1rem;
+}

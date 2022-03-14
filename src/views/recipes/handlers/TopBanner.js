@@ -1,5 +1,7 @@
 import StyledBox from '@components/StyledBox'
 import { Button } from '@mui/material'
+import RecipeTypeDefaultIcon from '@components/RecipeTypeDefaultIcon'
+import RecipeTypeIcon from '@components/RecipeTypeIcon'
 
 const buttonStyle = {
   marginLeft: 10,
@@ -19,7 +21,7 @@ const HandlerList = ({current, list, handleRecipeTypeChange}) => {
           disabled
           key={type.id}
           >
-            {type.name}
+            {type.has_icon ? <RecipeTypeIcon type={type}/> : <RecipeTypeDefaultIcon type={type}/> }
           </Button>
         )
       } else {
@@ -30,7 +32,7 @@ const HandlerList = ({current, list, handleRecipeTypeChange}) => {
           variant="outlined" 
           onClick={() => {handleRecipeTypeChange(type)}}
           >
-            {type.name}
+            {type.has_icon ? <RecipeTypeIcon type={type}/> : <RecipeTypeDefaultIcon type={type}/> }
           </Button>
         )
       }

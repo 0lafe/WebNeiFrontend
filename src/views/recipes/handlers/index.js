@@ -96,7 +96,6 @@ const Handlers = ({ extra }) => {
           key={recipe.id} 
           recipe={recipe} 
           url={recipeType.gui_url} 
-          scale={recipeType.scale}
           setItem={setItem}
           handleItemChange={handleItemChange}
           />

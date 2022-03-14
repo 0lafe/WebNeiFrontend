@@ -1,31 +1,32 @@
 import React from "react"
 import DefaultItemIcon from "@components/DefaultItemIcon"
-import { getItemRecipeData } from "@api"
-import { useHistory } from "react-router-dom"
+import ItemIcon from "@components/ItemIcon"
 
-const RecipeItemIcon = ({ item, scale, setItem, handleItemChange }) => {
-  const history = useHistory()
+const styles = {
+	width: "16",
+	height: "16"
+}
 
-	const handleClick = (e) => {
-		e.preventDefault()
-		getItemRecipeData(e.currentTarget.id).then(reply => {
-			if (reply.data.item.has_inputs) {
-				setItem(reply.data.item.id)
-				history.push(`/recipes/recipe_types/${reply.data.item.input_handlers[0].id}/items/${reply.data.item.id}`)
-			}
-		})
-	}
+const scale = 3.95
+const xPlus = 20
+const yPlus = 45
+
+const RecipeItemIcon = ({ item, handleItemChange }) => {
 
 	return (
 		<span onClick={handleItemChange} id={item.item.id}>
-			{item.item.url
-			? null
+			{item.item.has_icon
+			? <ItemIcon
+			item={item.item} 
+			quantity={item.quantity}
+			x={item.relx * scale + xPlus} 
+			y={item.rely * scale + yPlus} 
+			/>
 			: <DefaultItemIcon
 			item={item.item} 
 			quantity={item.quantity}
-			x={item.relx} 
-			y={item.rely} 
-			scale={scale}
+			x={item.relx * scale + xPlus} 
+			y={item.rely * scale + yPlus} 
 			/>}
 		</span>
 	)

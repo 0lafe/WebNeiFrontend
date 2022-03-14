@@ -1,7 +1,7 @@
 import React from "react"
 import RecipeItemIcon from "../icons"
 
-const HandlerRecipe = ({recipe, url, scale, setItem, handleItemChange}) => {
+const HandlerRecipe = ({recipe, url, setItem, handleItemChange}) => {
   
   return (
     <div style={{display: 'flex', justifyContent:"center"}}>
@@ -15,7 +15,6 @@ const HandlerRecipe = ({recipe, url, scale, setItem, handleItemChange}) => {
                 <RecipeItemIcon 
                 key={`${recipe.id}-${input.id}:${index}`}
                 item={input}
-                scale={scale}
                 setItem={setItem}
                 handleItemChange={handleItemChange}
                 />
@@ -26,7 +25,6 @@ const HandlerRecipe = ({recipe, url, scale, setItem, handleItemChange}) => {
                 <RecipeItemIcon 
                 key={`${recipe.id}-${output.id}:${index}`}
                 item={output}
-                scale={scale}
                 setItem={setItem}
                 handleItemChange={handleItemChange}
                 />
