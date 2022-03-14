@@ -8,7 +8,8 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -53,28 +54,44 @@ const Search = styled('div')(({ theme }) => ({
     },
   }));
 
-const NavBar = (props) => {
+const NavBar = ({ recipeType, item }) => {
+  const history = useHistory()
+
+  const handleHome = () => {
+    history.push("/")
+  }
+
+  const headerText = () => {
+    if (item) { 
+      return (
+        <span style={{margin: "100px"}}>
+          Viewing Recipes using '{item}' in the '{recipeType.name}' Handler
+        </span>
+      )
+    } else {
+      return (
+        <span style={{margin: "100px"}}>
+          Viewing All Recipes in the '{recipeType.name}' Handler
+        </span>
+      )
+    }
+  }
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
-                <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="open drawer"
-                    sx={{ mr: 2 }}
-                >
-                    <MenuIcon />
-                </IconButton>
                 <Typography
                     variant="h6"
                     noWrap
                     component="div"
                     sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                 >
-                    <Link to="/">Home</Link>
+                    <Button onClick={handleHome}>
+                      <span style={{color: "white"}}>Home</span>
+                    </Button>
+                    {headerText()}
                 </Typography>
+
                 <Search>
                     <SearchIconWrapper>
                     <SearchIcon />

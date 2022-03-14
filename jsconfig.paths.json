@@ -10,7 +10,6 @@
       "@api": ["src/utility/API"],
       "@hooks": ["src/utility/hooks"],
       "@views": ["src/views"],
-      "@layouts": ["src/layouts"]
-    }
+      "@layouts": ["src/layouts"]    }
   }
 }
